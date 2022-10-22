@@ -43,45 +43,45 @@ type SubmitMessage struct {
 }
 
 type MessageEvent struct {
-	Data           string `json:"data"`           // base64 Event data
-	DeviceCategory string `json:"deviceCategory"` //
+	Data           string `json:"data,omitempty"`           // base64 Event data
+	DeviceCategory string `json:"deviceCategory,omitempty"` //
 	//ExtraData              string    `json:"extraData"`      // Event data
-	Id                     string    `json:"id"`       //Message event ID
-	Inserted               time.Time `json:"inserted"` // Database insert date
-	LinkName               string    `json:"linkName"`
-	LinkTarget             string    `json:"linkTarget"`
-	MessageId              string    `json:"messageId"`   // Message ID
-	MessageTags            []string  `json:"messageTags"` // Message tags- Only filled for the GET /{account_id}/message_events api call when the parameter addmessagetags is true
-	Mta                    string    `json:"mta"`         // mTA that reported this event
-	OperatingSystem        string    `json:"operatingSystem"`
-	OperatingSystemVersion string    `json:"operatingSystemVersion"`
-	Received               time.Time `json:"received"` // Event date
-	Referer                string    `json:"referer"`
-	RemoteAddr             string    `json:"remoteAddr"`
-	Snippet                string    `json:"snippet"`   // Bounce snippet or SMTP conversation snippet
-	SubType                string    `json:"subType"`   // Bounce sub type
-	Tag                    string    `json:"tag"`       // Custom event type
-	EventType              string    `json:"eventType"` // Event type, must be CUSTOM
-	UserAgent              string    `json:"userAgent"`
-	UserAgentDisplayName   string    `json:"userAgentDisplayName"`
-	UserAgentString        string    `json:"userAgentString"`
-	UserAgentType          string    `json:"userAgentType"`
-	UserAgentVersion       string    `json:"userAgentVersion"`
+	Id                     string    `json:"id,omitempty"`       //Message event ID
+	Inserted               time.Time `json:"inserted,omitempty"` // Database insert date
+	LinkName               string    `json:"linkName,omitempty"`
+	LinkTarget             string    `json:"linkTarget,omitempty"`
+	MessageId              string    `json:"messageId,omitempty"`   // Message ID
+	MessageTags            []string  `json:"messageTags,omitempty"` // Message tags- Only filled for the GET /{account_id}/message_events api call when the parameter addmessagetags is true
+	Mta                    string    `json:"mta,omitempty"`         // mTA that reported this event
+	OperatingSystem        string    `json:"operatingSystem,omitempty"`
+	OperatingSystemVersion string    `json:"operatingSystemVersion,omitempty"`
+	Received               time.Time `json:"received,omitempty"` // Event date
+	Referer                string    `json:"referer,omitempty"`
+	RemoteAddr             string    `json:"remoteAddr,omitempty"`
+	Snippet                string    `json:"snippet,omitempty"`   // Bounce snippet or SMTP conversation snippet
+	SubType                string    `json:"subType,omitempty"`   // Bounce sub type
+	Tag                    string    `json:"tag,omitempty"`       // Custom event type
+	EventType              string    `json:"eventType,omitempty"` // Event type, must be CUSTOM
+	UserAgent              string    `json:"userAgent,omitempty"`
+	UserAgentDisplayName   string    `json:"userAgentDisplayName,omitempty"`
+	UserAgentString        string    `json:"userAgentString,omitempty"`
+	UserAgentType          string    `json:"userAgentType,omitempty"`
+	UserAgentVersion       string    `json:"userAgentVersion,omitempty"`
 }
 
 type ObjectDescription struct {
-	Description string `json:"description"`
-	Id          string `json:"id"`
+	Description string `json:"description,omitempty"`
+	Id          string `json:"id,omitempty"`
 }
 
 type Address struct {
-	Address string `json:"address"`
-	Name    string `json:"name"`
+	Address string `json:"address,omitempty"`
+	Name    string `json:"name,omitempty"`
 }
 
 type Header struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
+	Name  string `json:"name,omitempty"`
+	Value string `json:"value,omitempty"`
 }
 
 type MessageType string
@@ -93,50 +93,63 @@ const (
 )
 
 type Message struct {
-	BackendDone        time.Time         `json:"backendDone"`        // The time flowmailer was done processing this message
-	BackendStart       time.Time         `json:"backendStart"`       // The time flowmailer started processing this message
-	Events             []MessageEvent    `json:"events"`             //Message events Ordered by received, new events first.
-	Flow               ObjectDescription `json:"flow"`               // Flow this message was processed in
-	From               string            `json:"from"`               // The email address in From email header
-	FromAddress        Address           `json:"fromAddress"`        // The address in From email header
-	HeadersIn          []Header          `json:"headersIn"`          // E-Mail headers of the submitted email message., Only applicable when messageType = EMAIL and addheaders parameter is true
-	HeadersOut         []Header          `json:"headersOut"`         // Headers of the final e-mail. Only applicable when messageType = EMAIL and addheaders parameter is true
-	Id                 string            `json:"id"`                 // Message id
-	MessageDetailsLink string            `json:"messageDetailsLink"` // Link for the message details page. With resend button.
-	MessageIdHeader    string            `json:"messageIdHeader"`    // Content of the Message-ID email header
-	MessageType        MessageType       `json:"messageType"`        // Message type: EMAIL, SMS or LETTER
-	OnlineLink         string            `json:"onlineLink"`         // Last online link
-	RecipientAddress   string            `json:"recipientAddress"`   // Recipient address
-	SenderAddress      string            `json:"senderAddress"`      // Sender address
-	Source             ObjectDescription `json:"source"`             // Source system that submitted this message
-	Status             string            `json:"status"`             // Current message status
-	Subject            string            `json:"subject"`            // Message subject Only applicable when messageType = EMAIL
-	Submitted          time.Time         `json:"submitted"`          // The time this message was submitted to flowmailer
-	Tags               []string          `json:"tags"`               // Message tags, only available for api calls with addtags=true
-	ToAddressList      []Address         `json:"toAdressList"`       // The recipients in the To email header
-	TransactionId      string            `json:"transactionId"`      // The SMTP transaction id, returned with the SMTP 250 response
+	BackendDone        time.Time         `json:"backendDone,omitempty"`        // The time flowmailer was done processing this message
+	BackendStart       time.Time         `json:"backendStart,omitempty"`       // The time flowmailer started processing this message
+	Events             []MessageEvent    `json:"events,omitempty"`             //Message events Ordered by received, new events first.
+	Flow               ObjectDescription `json:"flow,omitempty"`               // Flow this message was processed in
+	From               string            `json:"from,omitempty"`               // The email address in From email header
+	FromAddress        Address           `json:"fromAddress,omitempty"`        // The address in From email header
+	HeadersIn          []Header          `json:"headersIn,omitempty"`          // E-Mail headers of the submitted email message., Only applicable when messageType = EMAIL and addheaders parameter is true
+	HeadersOut         []Header          `json:"headersOut,omitempty"`         // Headers of the final e-mail. Only applicable when messageType = EMAIL and addheaders parameter is true
+	Id                 string            `json:"id,omitempty"`                 // Message id
+	MessageDetailsLink string            `json:"messageDetailsLink,omitempty"` // Link for the message details page. With resend button.
+	MessageIdHeader    string            `json:"messageIdHeader,omitempty"`    // Content of the Message-ID email header
+	MessageType        MessageType       `json:"messageType,omitempty"`        // Message type: EMAIL, SMS or LETTER
+	OnlineLink         string            `json:"onlineLink,omitempty"`         // Last online link
+	RecipientAddress   string            `json:"recipientAddress,omitempty"`   // Recipient address
+	SenderAddress      string            `json:"senderAddress,omitempty"`      // Sender address
+	Source             ObjectDescription `json:"source,omitempty"`             // Source system that submitted this message
+	Status             string            `json:"status,omitempty"`             // Current message status
+	Subject            string            `json:"subject,omitempty"`            // Message subject Only applicable when messageType = EMAIL
+	Submitted          time.Time         `json:"submitted,omitempty"`          // The time this message was submitted to flowmailer
+	Tags               []string          `json:"tags,omitempty"`               // Message tags, only available for api calls with addtags=true
+	ToAddressList      []Address         `json:"toAdressList,omitempty"`       // The recipients in the To email header
+	TransactionId      string            `json:"transactionId,omitempty"`      // The SMTP transaction id, returned with the SMTP 250 response
 }
 
 type OAuthTokenResponse struct {
-	Access_token string `json:"access_token"`
-	Expires_in   int    `json:"expires_in"`
-	Scope        string `json:"scope"`
-	Token_type   string `json:"token_type"`
+	Access_token string `json:"access_token,omitempty"`
+	Expires_in   int    `json:"expires_in,omitempty"`
+	Scope        string `json:"scope,omitempty"`
+	Token_type   string `json:"token_type,omitempty"`
 }
 
 type MessageHold struct {
-	BackendDone   time.Time         `json:"backendDone"`   // The time flowmailer was done processing this message
-	Data          string            `json:"data"`          // MIME message data or text for SMS messages
-	DataCoding    byte              `json:"dataCoding"`    // Only for SMS messages
-	ErrorText     string            `json:"errorText"`     // Message error text
-	Flow          ObjectDescription `json:"flow"`          // Flow this message was processed in
-	MessageId     string            `json:"messageId"`     // Message id
-	MessageType   MessageType       `json:"messageType"`   // Message type: EMAIL, SMS or LETTER
-	Reason        string            `json:"reason"`        // Message processing failure reason
-	Recipient     string            `json:"recipient"`     // Recipient address
-	Sender        string            `json:"sender"`        // The email address in From email header
-	Source        ObjectDescription `json:"source"`        // Source system that submitted this message
-	Status        string            `json:"status"`        // Current message status
-	Submitted     time.Time         `json:"submitted"`     // The time this message was submitted to flowmailer
-	TransactionId string            `json:"transactionId"` // The SMTP transaction id, returned with the SMTP 250 response
+	BackendDone   time.Time         `json:"backendDone,omitempty"`   // The time flowmailer was done processing this message
+	Data          string            `json:"data,omitempty"`          // MIME message data or text for SMS messages
+	DataCoding    byte              `json:"dataCoding,omitempty"`    // Only for SMS messages
+	ErrorText     string            `json:"errorText,omitempty"`     // Message error text
+	Flow          ObjectDescription `json:"flow,omitempty"`          // Flow this message was processed in
+	MessageId     string            `json:"messageId,omitempty"`     // Message id
+	MessageType   MessageType       `json:"messageType,omitempty"`   // Message type: EMAIL, SMS or LETTER
+	Reason        string            `json:"reason,omitempty"`        // Message processing failure reason
+	Recipient     string            `json:"recipient,omitempty"`     // Recipient address
+	Sender        string            `json:"sender,omitempty"`        // The email address in From email header
+	Source        ObjectDescription `json:"source,omitempty"`        // Source system that submitted this message
+	Status        string            `json:"status,omitempty"`        // Current message status
+	Submitted     time.Time         `json:"submitted,omitempty"`     // The time this message was submitted to flowmailer
+	TransactionId string            `json:"transactionId,omitempty"` // The SMTP transaction id, returned with the SMTP 250 response
+}
+
+type MessageArchive struct {
+	Attachments        []Attachment      `json:"attachments,omitempty"`
+	Data               map[string]string `json:"data,omitempty"`
+	FlowStepId         string            `json:"flowStepId,omitempty"`
+	Html               string            `json:"html,omitempty"`
+	MessageDetailsLink string            `json:"messageDetailsLink,omitempty"`
+	MessageType        MessageType       `json:"messageType,omitempty"` // Message type: EMAIL, SMS or LETTER
+	OnlineLink         string            `json:"onlineLink,omitempty"`
+	OnlineVersion      bool              `json:"onlineVersion,omitempty"`
+	Subject            string            `json:"subject,omitempty"`
+	Text               string            `json:"text,omitempty"`
 }

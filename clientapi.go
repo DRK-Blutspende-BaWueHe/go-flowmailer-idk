@@ -189,6 +189,72 @@ func (fm *flowmailer) SubmitEmail(toEmail, toName, fromEmail, fromName, subject,
 	return nil
 }
 
+func (fm *flowmailer) GetMessageFromArchiveById(id string) ([]MessageArchive, error) {
+	resp, err := fm.client.R().
+		EnableTrace().
+		SetHeader("Authorization", fmt.Sprintf("Bearer %s", fm.token)).
+		SetHeader("Accept", "application/vnd.flowmailer.v1.12+json;charset=UTF-8").
+		Get(fmt.Sprintf("https://api.flowmailer.net/%d/messages/%s/archive?addattachments=true&adddata=true",
+			fm.account_id, id))
+
+	if err != nil {
+		return nil, err
+	}
+
+	switch resp.StatusCode() {
+	case 200:
+		messages := make([]MessageArchive, 0)
+		err := json.Unmarshal(resp.Body(), &messages)
+		if err != nil {
+			return nil, err
+		}
+		return messages, nil
+	case 401:
+		err := fm.Login()
+		if err != nil {
+			return nil, err
+		}
+		return fm.GetMessageFromArchiveById(id)
+	default:
+		return nil, fmt.Errorf("unexpected return-code %d", resp.StatusCode())
+	}
+}
+
+func (fm *flowmailer) GetAttachmentFromArchiveMessage(messageId, flowStepId, contentId string) (*Attachment, error) {
+	resp, err := fm.client.R().
+		EnableTrace().
+		SetHeader("Authorization", fmt.Sprintf("Bearer %s", fm.token)).
+		SetHeader("Accept", "application/vnd.flowmailer.v1.12+json;charset=UTF-8").
+		Get(fmt.Sprintf("https://api.flowmailer.net/%d/messages/%s/archive/%s/attachment/%s?addattachments=true&adddata=true",
+			fm.account_id,
+			messageId,
+			flowStepId,
+			contentId))
+
+	if err != nil {
+		return nil, err
+	}
+
+	switch resp.StatusCode() {
+	case 200:
+		var attachment Attachment
+		err := json.Unmarshal(resp.Body(), &attachment)
+		if err != nil {
+			return nil, err
+		}
+		return &attachment, nil
+	case 401:
+		err := fm.Login()
+		if err != nil {
+			return nil, err
+		}
+		return fm.GetAttachmentFromArchiveMessage(messageId, flowStepId, contentId)
+	default:
+		return nil, fmt.Errorf("unexpected return-code %d", resp.StatusCode())
+	}
+
+}
+
 func New(account_id int, client_id, client_secret string) Flowmailer {
 	return &flowmailer{
 		client:        resty.New(),

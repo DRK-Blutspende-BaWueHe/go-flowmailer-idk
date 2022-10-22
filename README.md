@@ -1,2 +1,6 @@
 # go-flowmail
-Flowmail.com API 
+Flowmail.com API is the frontent to flowmailer.com.
+
+Main Features 
+  - Send messages (with attachments)
+  - Receive messages from Flow (with attachments) 
