@@ -1,4 +1,4 @@
-module go-flowmail
+module go-flowmailer
 
 go 1.18
 

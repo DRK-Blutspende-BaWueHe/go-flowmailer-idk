@@ -3,12 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"go-flowmail"
+	"go-flowmailer"
 	"time"
 )
 
 func main() {
-	fm := flowmail.New(6377, "870605337621aa15a8645cc3eb80e595b1c67d2a", "eec45fcc32a696e64c0f249a6c3c161dd1a8a80f")
+	fm := flowmailer.New(6377, "870605337621aa15a8645cc3eb80e595b1c67d2a", "eec45fcc32a696e64c0f249a6c3c161dd1a8a80f")
 
 	err := fm.Login()
 	if err != nil {

@@ -1,4 +1,4 @@
-package flowmail
+package flowmailer
 
 import (
 	"encoding/json"
